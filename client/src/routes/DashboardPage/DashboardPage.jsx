@@ -9,6 +9,7 @@ const DashboardPage = () => {
     // const queryClient = useQueryClient();
 
     const navigate = useNavigate();
+    const { userId } = useAuth();
 
     // const mutation = useMutation({
     //     mutationFn: (text) => {
@@ -33,8 +34,28 @@ const DashboardPage = () => {
         const text = e.target.text.value;
         if (!text) return;
 
+        await fetch("http://localhost:3000/api/chats", {
+            method: 'post',
+            headers: {
+                "Content-type": 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({text, userId})
+        })
+
         // mutation.mutate(text);
     };
+
+    const testclick = async () => {
+        await fetch("http://localhost:3000/api/tests", {
+            method: 'get',
+            headers: {
+                "Content-type": 'application/json'
+            },
+            credentials: 'include',
+            // body: JSON.stringify({text, userId})
+        })
+    }
     return (
         <div className="dashboardPage">
             <div className="texts">
@@ -56,6 +77,9 @@ const DashboardPage = () => {
                         <span>Help me with my Code</span>
                     </div>
                 </div>
+                <button onClick={testclick} >
+                    testclick
+                </button>
             </div>
             <div className="formContainer">
                 <form onSubmit={handleSubmit}>

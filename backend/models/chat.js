@@ -21,10 +21,10 @@ const chatSchema = new mongoose.Schema(
                         },
                     },
                 ],
-                img: {
-                    type: String,
-                    required: false,
-                },
+                // img: {
+                //     type: String,
+                //     required: false,
+                // },
             },
         ],
     },

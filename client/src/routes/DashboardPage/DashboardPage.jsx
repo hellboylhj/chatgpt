@@ -1,49 +1,36 @@
-import './DashboardPage.css'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import {useAuth} from "@clerk/clerk-react";
-import {useEffect} from "react";
-import {Outlet, useNavigate } from "react-router-dom";
+import "./DashboardPage.css";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
-    // const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     const navigate = useNavigate();
-    const { userId } = useAuth();
 
-    // const mutation = useMutation({
-    //     mutationFn: (text) => {
-    //         return fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
-    //             method: "POST",
-    //             credentials: "include",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({ text }),
-    //         }).then((res) => res.json());
-    //     },
-    //     onSuccess: (id) => {
-    //         // Invalidate and refetch
-    //         queryClient.invalidateQueries({ queryKey: ["userChats"] });
-    //         navigate(`/dashboard/chats/${id}`);
-    //     },
-    // });
+    const mutation = useMutation({
+        mutationFn: (text) => {
+            return fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text }),
+            }).then((res) => res.json());
+        },
+        onSuccess: (id) => {
+            // Invalidate and refetch
+            queryClient.invalidateQueries({ queryKey: ["userChats"] });
+            navigate(`/dashboard/chats/${id}`);
+        },
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const text = e.target.text.value;
         if (!text) return;
 
-        await fetch("http://localhost:3000/api/chats", {
-            method: 'post',
-            headers: {
-                "Content-type": 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({text, userId})
-        })
-
-        // mutation.mutate(text);
+        mutation.mutate(text);
     };
 
     const testclick = async () => {
@@ -61,7 +48,7 @@ const DashboardPage = () => {
             <div className="texts">
                 <div className="logo">
                     <img src="/logo.png" alt="" />
-                    <h1>My app</h1>
+                    <h1>LAMA AI</h1>
                 </div>
                 <div className="options">
                     <div className="option">
@@ -77,9 +64,6 @@ const DashboardPage = () => {
                         <span>Help me with my Code</span>
                     </div>
                 </div>
-                <button onClick={testclick} >
-                    testclick
-                </button>
             </div>
             <div className="formContainer">
                 <form onSubmit={handleSubmit}>
@@ -93,4 +77,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage
+export default DashboardPage;

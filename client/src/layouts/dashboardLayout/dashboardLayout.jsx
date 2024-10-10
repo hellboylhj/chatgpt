@@ -1,8 +1,8 @@
 import './dashboardLayout.css'
-import {Outlet, useNavigate} from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {useAuth} from "@clerk/clerk-react";
 import {useEffect} from "react";
-import ChatList from '../../components/chatList/ChatList.jsx'
+import ChatList from '/src/components/chatList/ChatList.jsx'
 
 const DashboardLayout = ()=> {
 
